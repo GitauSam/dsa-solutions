@@ -1,8 +1,8 @@
 fun myAtoi(s: String): Int {
-    if (s.length == 0) return 0
+    if (s.isEmpty()) return 0
 
     val sb = StringBuilder()
-    val atoiCharArray = s.toCharArray()
+    val atoiCharArray = s.trim().toCharArray()
     var flag = false
     var polarity = true
     var count = 0
@@ -18,13 +18,17 @@ fun myAtoi(s: String): Int {
                 ?.let {
                     return it
                 }
-            if (i == '-') {
-                sb.append(i)
-                polarity = false
-            }
-
-            if(i == '+') {
-                sb.append(i)
+            when (i) {
+                '-' -> {
+                    sb.append(i)
+                    polarity = false
+                }
+                '+' -> {
+                    sb.append(i)
+                }
+                else -> {
+                    return 0
+                }
             }
         }
     }
@@ -56,5 +60,5 @@ fun toContinueOrNotToContinue(flag: Boolean, polarity:Boolean, sb: StringBuilder
 }
 
 fun main() {
-    println(myAtoi("   -42"))
+    println(myAtoi("   .1"))
 }
