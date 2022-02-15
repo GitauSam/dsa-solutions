@@ -61,6 +61,23 @@ fun intToRoman(num: Int): String {
     return romanSb.toString()
 }
 
+fun intToRomanBeta(N: Int): String? {
+    val `val` = intArrayOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val rom = arrayOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+
+    var N = N
+    val ans = StringBuilder()
+    var i = 0
+    while (N > 0) {
+        while (N >= `val`[i]) {
+            ans.append(rom[i])
+            N -= `val`[i]
+        }
+        i++
+    }
+    return ans.toString()
+}
+
 fun main() {
-    println(intToRoman(60))
+    println(intToRomanBeta(60))
 }
