@@ -13,9 +13,16 @@ fun intToRoman(num: Int): String {
     subtractionMap[4] = "IV"
     subtractionMap[9] = "IX"
     subtractionMap[40] = "XL"
+    subtractionMap[60] = "LX"
+    subtractionMap[70] = "LXX"
+    subtractionMap[80] = "LXXX"
     subtractionMap[90] = "XC"
     subtractionMap[400] = "CD"
+    subtractionMap[600] = "DC"
+    subtractionMap[700] = "DCC"
+    subtractionMap[800] = "DCCC"
     subtractionMap[900] = "CM"
+
 
     val placeNumberMap = hashMapOf<Int, Int>()
     placeNumberMap[1] = 1
@@ -29,12 +36,13 @@ fun intToRoman(num: Int): String {
     val numCharArray = num.toString().toCharArray()
     var i = 0
 
-//    3999
-//    MMMCMXCIX
     while (i < numCharArray.size) {
-        var placeHolderValue = numCharArray[i].digitToInt() * placeNumberMap[numCharArray.size - i]!!
+        var placeHolderValue = numCharArray[i].toString().toInt() * placeNumberMap[numCharArray.size - i]!!
 
-        if (subtractionMap.containsKey(placeHolderValue)) {
+        if (intToRomanMap.containsKey(placeHolderValue)) {
+            romanSb.append(intToRomanMap[placeHolderValue])
+            placeHolderValue -= numCharArray[i].toString().toInt() * placeNumberMap[numCharArray.size - i]!!
+        } else if (subtractionMap.containsKey(placeHolderValue)) {
             romanSb.append(subtractionMap[placeHolderValue])
         } else {
             while (placeHolderValue >= placeNumberMap[numCharArray.size - i]!!) {
@@ -42,8 +50,8 @@ fun intToRoman(num: Int): String {
                     romanSb.append("V")
                     placeHolderValue -= 5
                 } else {
-                    romanSb.append(intToRomanMap[placeNumberMap[numCharArray.size - i]!! * numCharArray[i].digitToInt()])
-                    placeHolderValue -= placeNumberMap[numCharArray.size - i]!! * numCharArray[i].digitToInt()
+                    romanSb.append(intToRomanMap[placeNumberMap[numCharArray.size - i]!!])
+                    placeHolderValue -= placeNumberMap[numCharArray.size - i]!!
                 }
             }
         }
@@ -54,5 +62,5 @@ fun intToRoman(num: Int): String {
 }
 
 fun main() {
-    println(intToRoman(58))
+    println(intToRoman(60))
 }
