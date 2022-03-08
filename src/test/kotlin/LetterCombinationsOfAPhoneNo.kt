@@ -72,9 +72,12 @@ fun letterCombinationsFour(digits: String): List<String> {
     digitsLetterMap['8'] = "tuv"
     digitsLetterMap['9'] = "wxyz"
 
-    val rowIndex = 0
+    var rowIndex = 0
+    var colIndex = 0
+    var nextColIndex = 0
     val comboMatrix = mutableListOf<CharArray>()
     val columnIndicesArr = Array(digits.length) { 0 }
+    val comboList = mutableListOf<String>()
 
     for (i in digits) {
         comboMatrix.add(digitsLetterMap[i]!!.toCharArray())
@@ -83,7 +86,20 @@ fun letterCombinationsFour(digits: String): List<String> {
     var comboWords = ""
 
     while (rowIndex <= columnIndicesArr.size) {
+        comboWords = "${comboMatrix[rowIndex][colIndex]}"
 
+        if (comboWords.length > 1) comboList.add(comboWords)
+
+        if (rowIndex == columnIndicesArr.size - 1) {
+            colIndex++
+            nextColIndex++
+        } else {
+            rowIndex++
+        }
+
+        if (rowIndex == columnIndicesArr.size - 1 && colIndex == comboMatrix[rowIndex].size - 1) {
+            colIndex = nextColIndex
+        }
     }
 }
 
