@@ -72,11 +72,9 @@ fun letterCombinationsFour(digits: String): List<String> {
     digitsLetterMap['8'] = "tuv"
     digitsLetterMap['9'] = "wxyz"
 
-    var rowIndex = 0
-    var colIndex = 0
-    var nextColIndex = 0
+    var x = 0
+    var y = 0
     val comboMatrix = mutableListOf<CharArray>()
-    val columnIndicesArr = Array(digits.length) { 0 }
     val comboList = mutableListOf<String>()
 
     for (i in digits) {
@@ -84,21 +82,33 @@ fun letterCombinationsFour(digits: String): List<String> {
     }
 
     var comboWords = ""
+    var nextYTarget = 0
+    var nextXTarget = 0
 
-    while (rowIndex <= columnIndicesArr.size) {
-        comboWords = "${comboMatrix[rowIndex][colIndex]}"
+    while (
+        (x <= comboMatrix[comboMatrix.size - 1].size - 1) &&
+        (y <= comboMatrix[comboMatrix.size - 1].size - 1)
+    ) {
+        comboWords = "${comboMatrix[x][y]}"
 
-        if (comboWords.length > 1) comboList.add(comboWords)
-
-        if (rowIndex == columnIndicesArr.size - 1) {
-            colIndex++
-            nextColIndex++
-        } else {
-            rowIndex++
-        }
-
-        if (rowIndex == columnIndicesArr.size - 1 && colIndex == comboMatrix[rowIndex].size - 1) {
-            colIndex = nextColIndex
+        if ( // (2, 2)
+            x == (comboMatrix[comboMatrix.size - 1].size - 1) &&
+            y == (comboMatrix[comboMatrix.size - 1].size - 1)
+        ) {
+            comboList.add(comboWords)
+            comboWords = ""
+            nextYTarget++
+            y = nextYTarget
+            x = nextXTarget
+        } else if (x == 0 && x < y) { // (0, 2)
+            x++
+            y = 0
+        } else if (x == comboMatrix.size - 1) { // (2, 0)
+            comboList.add(comboWords)
+            comboWords.substring(0, comboWords.length - 1)
+            y++
+        } else { // (1, 0)
+            x++
         }
     }
 }
